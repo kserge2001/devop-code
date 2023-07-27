@@ -1,41 +1,29 @@
 pipeline {
   agent any
-  tools {
-     maven 'M2_HOME'
-  }
-  environment {
-    registry = "kserge2001/devop-pipeline"
-    registryCredential = 'dockerUserID'
-  }
   stages {
     stage('Build'){
       steps {
-       sh 'mvn clean'
-       sh 'mvn install'
-       sh 'mvn package'
+       echo "Build"
+       sleep 10
       }
     }
-    stage('test'){
+     stage('Test'){
       steps {
-       echo "test step"
-       sh 'mvn test'
+       echo "Test Step"
+       sleep 5
       }
     }
-    stage('Deploy'){
+     stage('Deploy'){
       steps {
-       script {
-        docker.build registry + ":$BUILD_NUMBER"
-       }
-       }
+       echo "Deploy stage"
+       sleep 7
       }
-      stage('Push Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
+    }
+     stage('Docker'){
+      steps {
+       echo "docker image"
+       sleep 10
+      }
     }
   }
-}
- }
-}
+} 
